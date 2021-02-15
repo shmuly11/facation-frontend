@@ -1,3 +1,4 @@
+require('dotenv').config()
 
 const welcome = document.querySelector('#welcome')
 const profileForm = document.querySelector('#profile-form')
