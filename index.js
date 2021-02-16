@@ -1,18 +1,15 @@
-// require('dotenv').config()
-//  import {dotenv} from 'dotenv'
-// dotenv.config()
+
 const welcome = document.querySelector('#welcome')
 const profileForm = document.querySelector('#profile-form')
 const profileContainer = document.querySelector('#profile-container')
 const searchLocationForm = document.querySelector("#search-location")
 const locationsContainer = document.querySelector("#locations-container")
-// const result = dotenv.config()
-// console.log(result)
+let  number = 1
+
 
 function getUsername(){
-    // console.log('process', process.env.API_KEY)
-    // console.log('dot', dotenv)
-    fetch('http://localhost:3000/users/1')
+
+fetch('http://localhost:3000/users/1')
 .then(res => res.json())
 .then(renderName)
 }
@@ -33,10 +30,12 @@ function handleProfileForm(e){
 
 function renderProfilePhoto(user){
     let image = document.createElement('img')
+    let image2 = document.createElement('img')
     let removeBtn = document.createElement('button')
     removeBtn.textContent = 'Remove Background'
     image.src = user.profile_photo
-    profileContainer.append(image, removeBtn)
+    image2.src = user.forground_photo
+    profileContainer.append(image, removeBtn, image2)
 
 }
 
@@ -60,29 +59,7 @@ function handleprofileClick(e){
     }
 }
 
-function removeBackground(image){
-    
-    fetch("https://background-removal.p.rapidapi.com/remove", {
-	method: "POST",
-	headers: {    
-		"content-type": "application/x-www-form-urlencoded",
-		"x-rapidapi-key": "key used to be here",
-		"x-rapidapi-host": "background-removal.p.rapidapi.com"
-    },  
-	"body": `image_url=${image}`
-    })
-    .then(res =>  res.json())
-    .then(data => {
-       let image = data.response.image_url
-       let forgroundObj= {forground_photo: image} 
-       updateProfile(forgroundObj)
-       .then(renderForgroundPhoto)
-    })
-    .catch(err => {
-        console.error(err);
-    })
 
-}
 
 function renderForgroundPhoto(user){
     let image = document.createElement('img')
@@ -91,15 +68,18 @@ function renderForgroundPhoto(user){
 }
 
 function handleLocationForm(e){
+    // if(e.target.innerText === "more"){number += 1}
+    // else if(e.target.innerText === "back") {number -=1 }
     e.preventDefault()
     let location = e.target.location.value
     getLocationImages(location)
 }
 
 function getLocationImages(location){
-    fetch(`https://api.unsplash.com/search/photos?client_id=key-used-to-be-here&query=${location}&page=1&per_page=3`)
+    
+    fetch(`http://localhost:3000/locations/${location}/${number}`)
     .then(res => res.json())
-    .then(data => renderLocationImage(data.results))
+    .then(data => renderLocationImage(data))
 }
 
 function renderLocationImage(results){
@@ -110,12 +90,17 @@ function renderLocationImage(results){
         locationsContainer.append(img)
         
     });
+    const forwardBtn = document.createElement("button")
+    const backBtn = document.createElement("button")
+    forwardBtn.innerText = "more"
+    backBtn.innerText = "back"
+    locationsContainer.append(forwardBtn, backBtn)
 }
 
 searchLocationForm.addEventListener('submit', handleLocationForm)
 profileForm.addEventListener('submit', handleProfileForm)
 profileContainer.addEventListener('click', handleprofileClick)
-
+// locationsContainer.addEventListener('click', getLocationImages )
 
 
 getUsername()
