@@ -8,6 +8,9 @@ const submitBtn = document.getElementById('submit')
 const buttons = document.getElementById("button-container")
 const nextBtn = document.getElementById("next")
 const previousBtn = document.getElementById("previous")
+const selectedImages = document.querySelector("#selected-images")
+const createFacation = document.querySelector("#create-facation")
+const compositedImages = document.querySelector('#composited-images')
 
 nextBtn.setAttribute("hidden", true)
 previousBtn.setAttribute("hidden", true)
@@ -82,8 +85,8 @@ function renderForgroundPhoto(user){
 
 function handleLocationForm(e){
     e.preventDefault()
-     locations = e.target.location.value
-    
+    locations = e.target.location.value
+    selectedImages.dataset.id = locations
     getLocationImages(locations)
 
 }
@@ -108,6 +111,65 @@ function renderLocationImage(results){
 
 }
 
+function handleLocationsClick(e){
+    if(e.target.tagName === "IMG"){
+        let image = e.target.src
+        let newImage = document.createElement('img')
+        newImage.src = image
+        let button = document.createElement('button')
+        button.innerHTML = 'remove image'
+        selectedImages.append(newImage, button)
+
+    }
+    
+
+}
+
+function handleSelectedImageClick(e){
+    
+    if(e.target.tagName === "BUTTON"){
+        let image = e.target.previousElementSibling
+        image.remove()
+        e.target.remove()
+
+    }
+}
+
+function handleCreateFacation(e){
+    
+    let images = []
+    let location = e.target.previousElementSibling.dataset.id
+    console.log(location)
+    let newImages = e.target.previousElementSibling.querySelectorAll('img')
+    newImages.forEach(image => images.push(image.src))
+
+    let fetchObj = {location, images}
+
+    createFacationBackend(fetchObj)
+}
+
+function createFacationBackend(data){
+    fetch('http://localhost:3000/vacations',{
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => data.images.forEach( image => RenderCompositedImage(image.url)))
+}
+
+function RenderCompositedImage(image){
+    let img = document.createElement('img')
+    img.src = image
+    compositedImages.append(img)
+
+}
+
+createFacation.addEventListener('click', handleCreateFacation)
+selectedImages.addEventListener('click', handleSelectedImageClick)
+locationsContainer.addEventListener('click', handleLocationsClick)
 searchLocationForm.addEventListener('submit', handleLocationForm)
 profileForm.addEventListener('submit', handleProfileForm)
 profileContainer.addEventListener('click', handleprofileClick)
