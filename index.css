@@ -1,0 +1,124 @@
+*{
+    text-align: center;
+}
+
+html { 
+    background: url("pics/bg13.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+h1{
+    font-family: cursive;
+}
+
+h3{
+    font-family: cursive;
+}
+
+label{
+    font-family: cursive;
+}
+
+
+#submit {
+    font-family: cursive;
+    position: relative;
+    background-color: #4c65f3;
+    border: none;
+    border-radius: 5px;
+    height: 2rem;
+    width: max-content;
+    color: whitesmoke;
+    font-size: 10px;
+    justify-self: center;
+  }
+  
+  #submit:hover {
+    background-color: whitesmoke;
+    border: #1115ec solid 1px;
+    color: #1115ec
+  }
+
+  #submited {
+    font-family: cursive;
+    position: relative;
+    background-color: #4c65f3;
+    border: none;
+    border-radius: 5px;
+    height: 2rem;
+    width: max-content;
+    color: whitesmoke;
+    font-size: 10px;
+    justify-self: center;
+  }
+  
+  #submited:hover {
+    background-color: whitesmoke;
+    border: #1115ec solid 1px;
+    color: #1115ec
+  }
+
+  .card {
+      background-color: antiquewhite;
+    text-align: center;
+    border: grey solid 1px;
+    padding: 1rem;
+    width: 25rem;
+    height: 25rem;
+    display: inline-grid;
+    margin: 1rem 2rem;
+    box-shadow: 3px 4px #5957c5
+  }
+
+  .cards {
+    
+  text-align: center;
+  border: grey solid 1px;
+  padding: 1rem;
+  width: 25rem;
+  height: 25rem;
+  display: inline-grid;
+  margin: 1rem 2rem;
+  box-shadow: 3px 4px #5957c5
+}
+
+#next {
+    font-family: cursive;
+    position: relative;
+    background-color: #4c65f3;
+    border: none;
+    border-radius: 5px;
+    height: 2rem;
+    width: max-content;
+    color: whitesmoke;
+    font-size: 10px;
+    justify-self: center;
+  }
+  
+  #next:hover {
+    background-color: whitesmoke;
+    border: #1115ec solid 1px;
+    color: #1115ec
+  }
+
+  #previous {
+    font-family: cursive;
+    position: relative;
+    background-color: #4c65f3;
+    border: none;
+    border-radius: 5px;
+    height: 2rem;
+    width: max-content;
+    color: whitesmoke;
+    font-size: 10px;
+    justify-self: center;
+  }
+  
+  #previous:hover {
+    background-color: whitesmoke;
+    border: #1115ec solid 1px;
+    color: #1115ec
+  }

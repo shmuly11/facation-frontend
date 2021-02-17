@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Facation</title>
+    <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="index.css">
     <script src="index.js" defer></script>
     <!-- <script type="module" src="/Users/Basya/flatiron/module3/project/facation-frontend/node_modules/dotenv/types/index.d.ts" ></script> -->
@@ -18,7 +19,7 @@
     <form id="profile-form">
         <label>Upload your face!</label>
         <input type='text' name='url'>
-        <input type="submit">
+        <input id="submited" type="submit">
     </form>
 
     <div id="profile-container">
@@ -28,13 +29,15 @@
     <form id="search-location">
         <label>Where do you want to go?</label>
         <input type='text' name='location'>
-        <input type="submit">
+        <input id="submit" type="submit">
     </form>
 
     <div id="locations-container">
 
     </div>
-
-
-
+    <div id = "button-container">
+      <button id = "previous">previous</button>
+      <button id = "next">next</button>
+      
+  </div>
   </body>

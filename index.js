@@ -4,7 +4,19 @@ const profileForm = document.querySelector('#profile-form')
 const profileContainer = document.querySelector('#profile-container')
 const searchLocationForm = document.querySelector("#search-location")
 const locationsContainer = document.querySelector("#locations-container")
+const submitBtn = document.getElementById('submit')
+const buttons = document.getElementById("button-container")
+const nextBtn = document.getElementById("next")
+const previousBtn = document.getElementById("previous")
+
+nextBtn.setAttribute("hidden", true)
+previousBtn.setAttribute("hidden", true)
+let locations = "ll"
 let  number = 1
+
+
+
+
 
 
 function getUsername(){
@@ -31,11 +43,12 @@ function handleProfileForm(e){
 function renderProfilePhoto(user){
     let image = document.createElement('img')
     let image2 = document.createElement('img')
-    let removeBtn = document.createElement('button')
-    removeBtn.textContent = 'Remove Background'
+    image.className = "cards"
+    image2.className = "cards"
+    
     image.src = user.profile_photo
     image2.src = user.forground_photo
-    profileContainer.append(image, removeBtn, image2)
+    profileContainer.append(image, image2)
 
 }
 
@@ -68,15 +81,16 @@ function renderForgroundPhoto(user){
 }
 
 function handleLocationForm(e){
-    // if(e.target.innerText === "more"){number += 1}
-    // else if(e.target.innerText === "back") {number -=1 }
     e.preventDefault()
-    let location = e.target.location.value
-    getLocationImages(location)
+     locations = e.target.location.value
+    
+    getLocationImages(locations)
+
 }
 
 function getLocationImages(location){
-    
+    nextBtn.removeAttribute("hidden", false)
+    previousBtn.removeAttribute("hidden", false)
     fetch(`http://localhost:3000/locations/${location}/${number}`)
     .then(res => res.json())
     .then(data => renderLocationImage(data))
@@ -86,21 +100,33 @@ function renderLocationImage(results){
     locationsContainer.innerHTML = ""
     results.forEach(image => {
         let img = document.createElement('img')
+        img.className = "card"
         img.src = image.urls.regular
         locationsContainer.append(img)
         
     });
-    const forwardBtn = document.createElement("button")
-    const backBtn = document.createElement("button")
-    forwardBtn.innerText = "more"
-    backBtn.innerText = "back"
-    locationsContainer.append(forwardBtn, backBtn)
+
 }
 
 searchLocationForm.addEventListener('submit', handleLocationForm)
 profileForm.addEventListener('submit', handleProfileForm)
 profileContainer.addEventListener('click', handleprofileClick)
-// locationsContainer.addEventListener('click', getLocationImages )
+
+buttons.addEventListener("click", e => {
+    if(e.target.innerText === "next"){
+        number += 1 
+        fetch(`http://localhost:3000/locations/${locations}/${number}`)
+        .then(res => res.json())
+        .then(data => renderLocationImage(data))
+    }
+    else{
+        number -= 1 
+        fetch(`http://localhost:3000/locations/${locations}/${number}`)
+        .then(res => res.json())
+        .then(data => renderLocationImage(data))
+    }
+})
+    
 
 
 getUsername()
