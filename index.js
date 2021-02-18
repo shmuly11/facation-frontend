@@ -1,6 +1,6 @@
 const welcome = document.querySelector('#welcome')
 const profileForm = document.querySelector('#profile-form')
-const updateProfileForm = document.querySelector('#update-profile-form')
+
 const profileContainer = document.querySelector('#profile-container')
 const searchLocationForm = document.querySelector("#search-location")
 const locationsContainer = document.querySelector("#locations-container")
@@ -16,6 +16,11 @@ const signupForm = document.getElementById("signup-form")
 const signupBtn = document.getElementById("sign-up-button")
 const mainePage = document.querySelector('#main-page')
 const body = document.querySelector("body")
+const profilePhoto = document.getElementById("profile-photo")
+const showProfile = document.getElementById("show-profile-photo")
+const showVacation = document.getElementById("show-albums")
+const userLocations = document.getElementById('user-locations')
+let usersProfilePic = ""
 let locations = "ll"
 let  number = 1
 let users = "lle"
@@ -27,8 +32,8 @@ nextBtn.setAttribute("hidden", true)
 previousBtn.setAttribute("hidden", true)
 mainePage.setAttribute("hidden", true)
 createFacation.setAttribute("hidden", true)
-updateProfileForm.setAttribute("hidden",true)
-
+searchLocationForm.setAttribute("hidden", true)
+profileForm.setAttribute("hidden", true)
 
 
 
@@ -86,10 +91,28 @@ function handleProfileForm(e){
     let imageUrl = e.target.url.value
     let profileObj = {profile_photo: imageUrl}
     updateProfile(profileObj)
-    .then(renderProfilePhoto)
+    .then(data =>{
+        renderProfilePhoto(data)
+    })
+    profileForm.setAttribute("hidden",true)
+}
+
+function getProfileFromData(e){
+   
+    profileContainer.innerHTML = ''
+    fetch(`http://localhost:3000/users/${users}`)
+    .then(res => res.json())
+    .then(data => {
+        let image = document.createElement('img')
+        image.className = "cards"
+        image.src = data.profile_photo
+        profileContainer.append(image)
+    })
+    profileForm.setAttribute("hidden",true)
 }
 
 function renderProfilePhoto(user){
+    profileContainer.innerHTML = ''
     let image = document.createElement('img')
     let image2 = document.createElement('img')
     image.className = "cards"
@@ -98,11 +121,10 @@ function renderProfilePhoto(user){
     image.src = user.profile_photo
     image2.src = user.forground_photo
     profileContainer.append(image, image2)
-
 }
 
 function updateProfile(object){
-    return fetch('http://localhost:3000/users/1',{
+    return fetch(`http://localhost:3000/users/${users}`,{
         method: "PATCH",
         headers: {
             "Content-Type": 'application/json'
@@ -163,7 +185,7 @@ function renderLocationImage(results){
 }
 
 function handleLocationsClick(e){
-    if(e.target.tagName === "IMG"){
+    
         let image = e.target.src
         let newImage = document.createElement('img')
         newImage.src = image
@@ -171,7 +193,7 @@ function handleLocationsClick(e){
         button.innerHTML = 'remove image'
         selectedImages.append(newImage, button)
 
-    }
+    
     
 
 }
@@ -236,7 +258,7 @@ function findUser(e){
             mainePage.removeAttribute("hidden", false)
             if(data.profile_photo !== null){
                 profileForm.setAttribute("hidden",true)
-                updateProfileForm.removeAttribute("hidden",false)
+                
             }
            }   
     })
@@ -304,14 +326,50 @@ function createNewUser(e){
     }else{
         let message = document.createElement("h2")
         message.className = "errors"
-        message.innerText = `Sorry But field cant be blank exists `
+        message.innerText = `Sorry But field cant be blank  `
         body.append(message)
     }
 }
 
+function renderProfileForm(e){
+    profileForm.removeAttribute("hidden",false)
+}
 
 
+function getAllVacations(e){
+    fetch(`http://localhost:3000//vacations/${users}`)
+    .then(res => res.json())
+    .then(data => data.forEach(locations => renderUsersLocations(locations)))
+}
 
+function renderUsersLocations(vacation){
+  let h2 = document.createElement("h2")
+  let div = document.createElement('div')
+  h2.innerText = vacation.location
+  h2.dataset.id = vacation.id
+  h2.className ="small-cards"
+
+  userLocations.append(h2)
+
+}
+
+
+function getImagesFromAlbum(e){
+    userLocations.innerHTML =''
+    console.log(e.target)
+    fetch(`http://localhost:3000//locations/${e.target.dataset.id}`)
+    .then(res => res.json())
+    .then(data => data.forEach(img => showAlbum(img)))
+ 
+}
+
+
+function showAlbum(user){
+    
+    let img = document.createElement('img')
+    img.src = user.url
+    userLocations.append(img)
+}
 
 loginForm.addEventListener("submit", findUser)
 createFacation.addEventListener('click', handleCreateFacation)
@@ -322,9 +380,10 @@ profileForm.addEventListener('submit', handleProfileForm)
 profileContainer.addEventListener('click', handleprofileClick)
 signupForm.addEventListener("submit",createNewUser) 
 signupBtn.addEventListener("click", renderSignUpForm)
-
-
-
+profilePhoto.addEventListener("click",renderProfileForm)
+showProfile.addEventListener("click",getProfileFromData)
+showVacation.addEventListener("click",getAllVacations)
+userLocations.addEventListener("click",getImagesFromAlbum)
 getCompanions()
 
 

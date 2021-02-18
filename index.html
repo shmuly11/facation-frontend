@@ -3,19 +3,28 @@
   <head>
     <meta charset="utf-8">
     <title>Facation</title>
+
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="index.css">
     <script src="index.js" defer></script>
     <!-- <script type="module" src="/Users/Basya/flatiron/module3/project/facation-frontend/node_modules/dotenv/types/index.d.ts" ></script> -->
     <!-- <script type="text/javascript" src="src/index.js"></script> -->
 
-    
 
   </head>
   <body>
+ 
     <h1 id='welcome'>Hello! Welcome to Facation!</h1>
     <h3>You Don't need to go anywhere to travel.</h3>
-    
+
+
+
+
+
+
+
+
+<div id ="s-l">
     <form id="login-form">
       <label>login!</label>
       <input type='text' name='username'>
@@ -27,19 +36,40 @@
     <input type='text' name='username'>
     <input id="sign-up-button" type="submit">
 </form>
+</div>
 
-<div id="main-page"> 
 
+
+
+
+<div id="main-page">
+
+
+  <div id ="nav-bar">
+    <div class="profile-dropdown">
+      <button class="profilebtn">My Profile </button>
+      <div class="profile-content">
+        <p id ="show-profile-photo">profile  photo</p>
+        <p id="profile-photo">update photo</p>
+      </div>
+
+    </div>
+
+    <div class="vacation-dropdown">
+      <button class="vacationbtn">My vacation </button>
+      <div class="vacation-content">
+        <p id = "show-albums">show all albums</p>
+        <p id ='create-new-vacation'>create new vacation</p>
+      </div>
+      </div>   
+</div>
+  
     <form id="profile-form">
-        <label>Upload your face!</label>
+        <label>Udate profile photo!</label>
         <input type='text' name='url'>
         <input id="submited" type="submit">
     </form>
-    <form id="update-profile-form">
-      <label>Update your face!</label>
-      <input type='text' name='url'>
-      <input id="submited" type="submit">
-  </form>
+
     <div id="profile-container">
 
     </div>
@@ -59,6 +89,11 @@
     <div id="locations-container">
 
     </div>
+    
+    <div id="user-locations">
+
+    </div>
+
     <div id = "button-container">
       <button id = "previous">previous</button>
       <button id = "next">next</button>
@@ -78,3 +113,5 @@
   </div>
 </div>
   </body>
+
+  
