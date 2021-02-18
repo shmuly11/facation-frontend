@@ -11,11 +11,25 @@ const previousBtn = document.getElementById("previous")
 const selectedImages = document.querySelector("#selected-images")
 const createFacation = document.querySelector("#create-facation")
 const compositedImages = document.querySelector('#composited-images')
-
-nextBtn.setAttribute("hidden", true)
-previousBtn.setAttribute("hidden", true)
+const loginForm = document.getElementById("login-form")
+const signupForm = document.getElementById("signup-form")
+const signupBtn = document.getElementById("sign-up-button")
+const mainePage = document.querySelector('#main-page')
+const body = document.querySelector("body")
 let locations = "ll"
 let  number = 1
+let users = "lle"
+let addForm = false;
+
+signupForm.setAttribute("hidden", true)  
+nextBtn.setAttribute("hidden", true)
+previousBtn.setAttribute("hidden", true)
+mainePage.setAttribute("hidden", true)
+createFacation.setAttribute("hidden", true)
+
+
+
+
 
 
 
@@ -24,15 +38,16 @@ let  number = 1
 
 function getUsername(){
 
-fetch('http://localhost:3000/users/1')
-.then(res => res.json())
-.then(renderName)
+    return fetch(`http://localhost:3000/users/${users}`)
+    .then(res => res.json())
+    
+
 }
 
 function renderName(user){
     let name = user.name
-    welcome.textContent = `Hello ${name}! Welcome to Facation!`
-
+    welcome.textContent = `Hello ${users}! Welcome to Facation!`
+    
 }
 
 function handleProfileForm(e){
@@ -92,11 +107,16 @@ function handleLocationForm(e){
 }
 
 function getLocationImages(location){
-    nextBtn.removeAttribute("hidden", false)
-    previousBtn.removeAttribute("hidden", false)
+
     fetch(`http://localhost:3000/locations/${location}/${number}`)
     .then(res => res.json())
-    .then(data => renderLocationImage(data))
+    .then(data => {
+        renderLocationImage(data)
+        nextBtn.removeAttribute("hidden", false)
+        previousBtn.removeAttribute("hidden", false)
+        createFacation.removeAttribute("hidden", false)
+    })
+   searchLocationForm.reset()
 }
 
 function renderLocationImage(results){
@@ -167,12 +187,33 @@ function RenderCompositedImage(image){
 
 }
 
-createFacation.addEventListener('click', handleCreateFacation)
-selectedImages.addEventListener('click', handleSelectedImageClick)
-locationsContainer.addEventListener('click', handleLocationsClick)
-searchLocationForm.addEventListener('submit', handleLocationForm)
-profileForm.addEventListener('submit', handleProfileForm)
-profileContainer.addEventListener('click', handleprofileClick)
+
+function findUser(e){
+    e.preventDefault()
+    users = e.target.username.value
+    getUsername()
+    .then(data => {
+        renderName(data)
+        console.log(data.name)
+        users = data.name
+        if(users === data.name && e.target.username.value !== null ){
+            console.log(users)
+            loginForm.setAttribute("hidden", true)
+            signupForm.setAttribute("hidden", true)
+            mainePage.removeAttribute("hidden", false)
+            
+           }   
+    })
+    .catch(error => {
+        let message = document.createElement("h2")
+        message.className = "errors"
+        message.innerText = `Sorry But No User ${e.target.username.value} exists `
+        body.append(message)
+        loginForm.reset()
+    })
+
+}
+
 
 buttons.addEventListener("click", e => {
     if(e.target.innerText === "next"){
@@ -188,8 +229,57 @@ buttons.addEventListener("click", e => {
         .then(data => renderLocationImage(data))
     }
 })
+
+function renderSignUpForm(){
+    addForm = !addForm;
+    if (!addForm) {
+      signupForm.setAttribute("hidden", true) 
+    } else {
+      signupForm.removeAttribute("hidden", true)
+    }
+  }
+
+function createNewUser(e){
+    e.preventDefault()
+    let name = e.target.username.value
+    const newUser = {name: name }
+    fetch(`http://localhost:3000/users`,{
+        method: "POST",
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser)
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+
+
+    loginForm.setAttribute("hidden", true)
+    signupForm.setAttribute("hidden", true)
+    mainePage.removeAttribute("hidden", false)
+    users = e.target.username.value
+}
+
+
+
+
+
+loginForm.addEventListener("submit", findUser)
+createFacation.addEventListener('click', handleCreateFacation)
+selectedImages.addEventListener('click', handleSelectedImageClick)
+locationsContainer.addEventListener('click', handleLocationsClick)
+searchLocationForm.addEventListener('submit', handleLocationForm)
+profileForm.addEventListener('submit', handleProfileForm)
+profileContainer.addEventListener('click', handleprofileClick)
+signupForm.addEventListener("submit",createNewUser) 
+signupBtn.addEventListener("click", renderSignUpForm)
+
+
+
+
+
     
 
 
-getUsername()
+
 
