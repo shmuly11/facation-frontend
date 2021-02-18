@@ -22,7 +22,9 @@ label{
     font-family: cursive;
 }
 
-
+#signup-form{
+    align-content: ;
+}
 
 #submit {
     font-family: cursive;
@@ -179,6 +181,26 @@ label{
   }
   
   #sign-up-button:hover {
+    background-color: whitesmoke;
+    border: #1115ec solid 1px;
+    color: #1115ec
+  }
+
+  #logged-in {
+    margin: 1rem 2rem;
+    font-family: cursive;
+    position: relative;
+    background-color: #4c65f3;
+    border: none;
+    border-radius: 5px;
+    height: 2rem;
+    width: max-content;
+    color: whitesmoke;
+    font-size: 10px;
+    justify-self: center;
+  }
+  
+  #logged-in:hover {
     background-color: whitesmoke;
     border: #1115ec solid 1px;
     color: #1115ec

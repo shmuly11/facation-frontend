@@ -1,6 +1,6 @@
-
 const welcome = document.querySelector('#welcome')
 const profileForm = document.querySelector('#profile-form')
+const updateProfileForm = document.querySelector('#update-profile-form')
 const profileContainer = document.querySelector('#profile-container')
 const searchLocationForm = document.querySelector("#search-location")
 const locationsContainer = document.querySelector("#locations-container")
@@ -21,12 +21,12 @@ let  number = 1
 let users = "lle"
 let addForm = false;
 
-signupForm.setAttribute("hidden", true)  
+// signupForm.setAttribute("hidden", true)  
 nextBtn.setAttribute("hidden", true)
 previousBtn.setAttribute("hidden", true)
 mainePage.setAttribute("hidden", true)
 createFacation.setAttribute("hidden", true)
-
+updateProfileForm.setAttribute("hidden",true)
 
 
 
@@ -191,17 +191,21 @@ function RenderCompositedImage(image){
 function findUser(e){
     e.preventDefault()
     users = e.target.username.value
+    if(e.target.username.value!== ""){
     getUsername()
     .then(data => {
         renderName(data)
         console.log(data.name)
         users = data.name
-        if(users === data.name && e.target.username.value !== null ){
+        if(users === data.name ){
             console.log(users)
             loginForm.setAttribute("hidden", true)
             signupForm.setAttribute("hidden", true)
             mainePage.removeAttribute("hidden", false)
-            
+            if(data.profile_photo !== null){
+                profileForm.setAttribute("hidden",true)
+                updateProfileForm.removeAttribute("hidden",false)
+            }
            }   
     })
     .catch(error => {
@@ -211,7 +215,12 @@ function findUser(e){
         body.append(message)
         loginForm.reset()
     })
-
+  }else{
+    let message = document.createElement("h2")
+    message.className = "errors"
+    message.innerText = `Sorry But field cant be blank exists `
+    body.append(message)
+  }
 }
 
 
@@ -242,6 +251,7 @@ function renderSignUpForm(){
 function createNewUser(e){
     e.preventDefault()
     let name = e.target.username.value
+    if(e.target.username.value !== ""){
     const newUser = {name: name }
     fetch(`http://localhost:3000/users`,{
         method: "POST",
@@ -258,6 +268,13 @@ function createNewUser(e){
     signupForm.setAttribute("hidden", true)
     mainePage.removeAttribute("hidden", false)
     users = e.target.username.value
+    welcome.textContent = `Hello ${users}! Welcome to Facation!`
+    }else{
+        let message = document.createElement("h2")
+        message.className = "errors"
+        message.innerText = `Sorry But field cant be blank exists `
+        body.append(message)
+    }
 }
 
 
@@ -273,12 +290,6 @@ profileForm.addEventListener('submit', handleProfileForm)
 profileContainer.addEventListener('click', handleprofileClick)
 signupForm.addEventListener("submit",createNewUser) 
 signupBtn.addEventListener("click", renderSignUpForm)
-
-
-
-
-
-    
 
 
 
