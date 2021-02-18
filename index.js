@@ -167,8 +167,10 @@ function handleLocationsClick(e){
         let image = e.target.src
         let newImage = document.createElement('img')
         newImage.src = image
+        newImage.className = "selected-image"
         let button = document.createElement('button')
-        button.innerHTML = 'remove image'
+        button.className = 'remove-selected'
+        button.innerHTML = 'remove'
         selectedImages.append(newImage, button)
 
     }
