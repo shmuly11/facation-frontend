@@ -3,7 +3,7 @@
 }
 
 html { 
-    background: url("pics/bg13.jpg") no-repeat center center fixed; 
+    background: url("pics/Travel_site.png") no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -12,6 +12,8 @@ html {
 
 h1{
     font-family: cursive;
+    font-size: 5rem;
+    color: rgb(rgb(22, 196, 89), rgb(67, 197, 67), blue)
 }
 
 h3{
@@ -205,3 +207,48 @@ label{
     border: #1115ec solid 1px;
     color: #1115ec
   }
+  
+  
+  
+
+  ul{
+    border: red 1px solid;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+li {
+    border: black 1px solid;
+    margin: 1rem;
+    border-radius: 20%;
+    box-shadow: 1rem 2rem cadetblue;
+}
+
+li img {
+    display: block;
+    max-width: 10rem;
+    max-height: 10rem;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+li span {
+    padding: 2rem;
+}
+
+#companions-container{
+    justify-content: center;
+    align-items: center;
+}
+
+#companions-container img{
+    background-color: transparent;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}

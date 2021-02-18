@@ -20,6 +20,7 @@ let locations = "ll"
 let  number = 1
 let users = "lle"
 let addForm = false;
+const companionsList = document.querySelector('#companions-container')
 
 // signupForm.setAttribute("hidden", true)  
 nextBtn.setAttribute("hidden", true)
@@ -32,9 +33,39 @@ updateProfileForm.setAttribute("hidden",true)
 
 
 
+function getCompanions(){
+    fetch('http://localhost:3000/companions')
+    .then(res => res.json())
+    .then(renderCompanion)
+}
 
+function renderCompanion(companions){
+    // let li = document.createElement('li')
+    // li.dataset.id = companion.id
+    // li.innerHTML=`
+    // <img src=${companion.image} alt=${companion.name}>
+    // ${companion.name}
+    // `
+    // companionsList.append(li)
+    // let timer = setInterval(movement, 500)
 
-
+    function movement(){
+          
+    // for (let i = 0; i < companions.length; i++) {
+        let companion = companions[Math.floor(Math.random() * companions.length)]
+    companionsList.dataset.id = companion.id
+    companionsList.innerHTML = `
+    <img src=${companion.image} alt=${companion.name}>
+    ${companion.name}
+    `  
+    //   }
+      
+    }
+    for (let i = 0; i < companions.length; i++) {
+        setTimeout(movement, 200 * i)
+      }
+    
+}
 
 function getUsername(){
 
@@ -162,9 +193,10 @@ function handleCreateFacation(e){
     console.log(location)
     let newImages = e.target.previousElementSibling.querySelectorAll('img')
     newImages.forEach(image => images.push(image.src))
+    let companion = companionsList.dataset.id
 
-    let fetchObj = {location, images}
-
+    let fetchObj = {location, companion, images}
+    
     createFacationBackend(fetchObj)
 }
 
@@ -292,5 +324,7 @@ signupForm.addEventListener("submit",createNewUser)
 signupBtn.addEventListener("click", renderSignUpForm)
 
 
+
+getCompanions()
 
 
