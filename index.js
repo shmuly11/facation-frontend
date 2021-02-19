@@ -23,6 +23,7 @@ const userLocations = document.getElementById('user-locations')
 const userLocationsDiv = document.getElementById('user-location-div')
 const createNewVacation = document.getElementById('create-new-vacation')
 let usersProfilePic = ""
+const generateCompanionBtn = document.querySelector("#generate-companion")
 let locations = "ll"
 let  number = 1
 let users = "lle"
@@ -199,8 +200,10 @@ function handleLocationsClick(e){
         let image = e.target.src
         let newImage = document.createElement('img')
         newImage.src = image
+        newImage.className = "selected-image"
         let button = document.createElement('button')
-        button.innerHTML = 'remove image'
+        button.className = 'remove-selected'
+        button.innerHTML = 'remove'
         selectedImages.append(newImage, button)
 
     
@@ -348,6 +351,9 @@ function renderProfileForm(e){
     profileForm.removeAttribute("hidden",false)
 }
 
+function generateCompanion(){
+    getCompanions()
+}
 
 function getAllVacations(e){
     profileContainer.innerHTML =''
@@ -421,6 +427,13 @@ showProfile.addEventListener("click",getProfileFromData)
 showVacation.addEventListener("click",getAllVacations)
 userLocations.addEventListener("click",getImagesFromAlbum)
 createNewVacation.addEventListener("click", renderCreateOption )
+
+
+
+generateCompanionBtn.addEventListener('click', generateCompanion)
+
+
+
 
 
 
