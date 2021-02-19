@@ -103,7 +103,7 @@ function renderProfilePhoto(user){
 }
 
 function updateProfile(object){
-    return fetch('http://localhost:3000/users/1',{
+    return fetch(`http://localhost:3000/users/${users}`,{
         method: "PATCH",
         headers: {
             "Content-Type": 'application/json'
@@ -204,7 +204,7 @@ function handleCreateFacation(e){
 }
 
 function createFacationBackend(data){
-    fetch('http://localhost:3000/vacations',{
+    fetch(`http://localhost:3000/vacations/${users}`,{
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -212,7 +212,12 @@ function createFacationBackend(data){
         body: JSON.stringify(data)
     })
     .then(res => res.json())
-    .then(data => data.images.forEach( image => RenderCompositedImage(image.url)))
+    .then(data => {
+        
+        data.images.forEach( image => RenderCompositedImage(image.url))
+        renderVideo(data.video)
+        
+    })
 }
 
 function RenderCompositedImage(image){
@@ -220,6 +225,15 @@ function RenderCompositedImage(image){
     img.src = image
     compositedImages.append(img)
 
+}
+
+function renderVideo(video){
+    compositedImages.innerHTML+= `
+    <video width="320" height="240" controls>
+    <source src=${video} type="video/mp4">
+    </video>
+    `
+    
 }
 
 
