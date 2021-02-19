@@ -90,6 +90,7 @@ function renderName(user){
 
 function handleProfileForm(e){
     e.preventDefault()
+    profileContainer.innerHTML=''
     let imageUrl = e.target.url.value
     let profileObj = {profile_photo: imageUrl}
     updateProfile(profileObj)
@@ -105,10 +106,17 @@ function getProfileFromData(e){
     fetch(`http://localhost:3000/users/${users}`)
     .then(res => res.json())
     .then(data => {
+        if(data.profile_photo!== null){
         let image = document.createElement('img')
         image.className = "cards"
         image.src = data.profile_photo
         profileContainer.append(image)
+        }else{
+            let image = document.createElement('img')
+            image.className = "cards"
+            image.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrVvZ-cRUFVpe2SAQFf8lo_Pd9zCALVOwc4A&usqp=CAU'
+            profileContainer.append(image)
+        }
     })
     profileForm.setAttribute("hidden",true)
 }
@@ -222,6 +230,13 @@ function handleCreateFacation(e){
     let fetchObj = {location, companion, images}
     
     createFacationBackend(fetchObj)
+    setTimeout(resetCI, 4000)
+    
+}
+
+function resetCI(){
+    compositedImages.innerHTML =''
+    selectedImages.innerHTML= ''
 }
 
 function createFacationBackend(data){
@@ -245,6 +260,7 @@ function RenderCompositedImage(image){
 
 
 function findUser(e){
+    getCompanions()
     e.preventDefault()
     users = e.target.username.value
     console.log(e.target.username.value.length)
@@ -300,6 +316,7 @@ function renderSignUpForm(){
 
 function createNewUser(e){
     e.preventDefault()
+    getCompanions()
     let name = e.target.username.value
     if(e.target.username.value.length !== 0){
     const newUser = {name: name }
@@ -333,6 +350,7 @@ function renderProfileForm(e){
 
 
 function getAllVacations(e){
+    profileContainer.innerHTML =''
     fetch(`http://localhost:3000//vacations/${users}`)
     .then(res => res.json())
     .then(data => {
@@ -384,6 +402,8 @@ function showAlbum(user){
 }
 
 function renderCreateOption(e){
+    userLocationsDiv.innerHTML=''
+    profileContainer.innerHTML =''
   searchLocationForm.removeAttribute("hidden",false)
 }
 
@@ -401,6 +421,6 @@ showProfile.addEventListener("click",getProfileFromData)
 showVacation.addEventListener("click",getAllVacations)
 userLocations.addEventListener("click",getImagesFromAlbum)
 createNewVacation.addEventListener("click", renderCreateOption )
-getCompanions()
+
 
 

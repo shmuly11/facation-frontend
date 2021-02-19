@@ -431,7 +431,7 @@ li span {
 
 .small-cards{
     margin-top: 30px;
-    background-image: url("pics/bg5.jpg");
+    background-color: rgb(221, 208, 208);
     border: grey solid 1px;
     padding: 1rem;
     width: 5rem;
@@ -443,4 +443,33 @@ li span {
 
 h2{
     margin-top: 40px;
+}
+
+
+#selected-images img{
+    display: block;
+    background-color: antiquewhite;
+    text-align: center;
+    border: grey solid 1px;
+    padding: 1rem;
+    width: 25rem;
+    height: 25rem;
+    display: inline-grid;
+    margin: 1rem 2rem;
+    box-shadow: 3px 4px #5957c5
+    
+}
+
+#composited-images img{
+    display: block;
+    background-color: antiquewhite;
+    text-align: center;
+    border: grey solid 1px;
+    padding: 1rem;
+    width: 25rem;
+    height: 25rem;
+    display: inline-grid;
+    margin: 1rem 2rem;
+    box-shadow: 3px 4px #5957c5
+    
 }
