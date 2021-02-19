@@ -425,6 +425,9 @@ li span {
   margin-right: auto;
   width: 50%;
 }
+#search-location {
+ margin-top: 20%;
+}
 
 .small-cards{
     margin-top: 30px;
@@ -436,4 +439,8 @@ li span {
     display: inline-grid;
     margin: 1rem 2rem;
     box-shadow: 3px 4px #5957c5
+}
+
+h2{
+    margin-top: 40px;
 }

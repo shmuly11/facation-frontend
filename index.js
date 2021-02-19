@@ -20,6 +20,8 @@ const profilePhoto = document.getElementById("profile-photo")
 const showProfile = document.getElementById("show-profile-photo")
 const showVacation = document.getElementById("show-albums")
 const userLocations = document.getElementById('user-locations')
+const userLocationsDiv = document.getElementById('user-location-div')
+const createNewVacation = document.getElementById('create-new-vacation')
 let usersProfilePic = ""
 let locations = "ll"
 let  number = 1
@@ -223,7 +225,7 @@ function handleCreateFacation(e){
 }
 
 function createFacationBackend(data){
-    fetch('http://localhost:3000/vacations',{
+    fetch(`http://localhost:3000/vacations/${users}`,{
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -245,14 +247,15 @@ function RenderCompositedImage(image){
 function findUser(e){
     e.preventDefault()
     users = e.target.username.value
-    if(e.target.username.value!== ""){
+    console.log(e.target.username.value.length)
+    if(e.target.username.value.length !== 0){
     getUsername()
     .then(data => {
         renderName(data)
-        console.log(data.name)
+        
         users = data.name
         if(users === data.name ){
-            console.log(users)
+            
             loginForm.setAttribute("hidden", true)
             signupForm.setAttribute("hidden", true)
             mainePage.removeAttribute("hidden", false)
@@ -262,17 +265,10 @@ function findUser(e){
             }
            }   
     })
-    .catch(error => {
-        let message = document.createElement("h2")
-        message.className = "errors"
-        message.innerText = `Sorry But No User ${e.target.username.value} exists `
-        body.append(message)
-        loginForm.reset()
-    })
   }else{
     let message = document.createElement("h2")
     message.className = "errors"
-    message.innerText = `Sorry But field cant be blank exists `
+    message.innerText = `Sorry But field cant be blank  `
     body.append(message)
   }
 }
@@ -305,7 +301,7 @@ function renderSignUpForm(){
 function createNewUser(e){
     e.preventDefault()
     let name = e.target.username.value
-    if(e.target.username.value !== ""){
+    if(e.target.username.value.length !== 0){
     const newUser = {name: name }
     fetch(`http://localhost:3000/users`,{
         method: "POST",
@@ -339,8 +335,17 @@ function renderProfileForm(e){
 function getAllVacations(e){
     fetch(`http://localhost:3000//vacations/${users}`)
     .then(res => res.json())
-    .then(data => data.forEach(locations => renderUsersLocations(locations)))
+    .then(data => {
+        if(data.length > 0 ){data.forEach(locations => renderUsersLocations(locations))} 
+        else{
+            alert("seems like you dont have any vacations lets create one ")
+           
+    } 
+    })
+   
+    
 }
+
 
 function renderUsersLocations(vacation){
   let h2 = document.createElement("h2")
@@ -355,12 +360,18 @@ function renderUsersLocations(vacation){
 
 
 function getImagesFromAlbum(e){
-    userLocations.innerHTML =''
-    console.log(e.target)
+    
+    if(e.target.tagName === "H2"){
+    userLocationsDiv.innerHTML =''
+    console.log
     fetch(`http://localhost:3000//locations/${e.target.dataset.id}`)
     .then(res => res.json())
-    .then(data => data.forEach(img => showAlbum(img)))
- 
+    .then(data => {
+        
+        data.forEach(img => showAlbum(img))
+
+    })
+    }
 }
 
 
@@ -368,7 +379,12 @@ function showAlbum(user){
     
     let img = document.createElement('img')
     img.src = user.url
-    userLocations.append(img)
+    img.className = "cards"
+    userLocationsDiv.append(img)
+}
+
+function renderCreateOption(e){
+  searchLocationForm.removeAttribute("hidden",false)
 }
 
 loginForm.addEventListener("submit", findUser)
@@ -384,6 +400,7 @@ profilePhoto.addEventListener("click",renderProfileForm)
 showProfile.addEventListener("click",getProfileFromData)
 showVacation.addEventListener("click",getAllVacations)
 userLocations.addEventListener("click",getImagesFromAlbum)
+createNewVacation.addEventListener("click", renderCreateOption )
 getCompanions()
 
 
