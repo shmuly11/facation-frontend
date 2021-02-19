@@ -16,6 +16,7 @@ const signupForm = document.getElementById("signup-form")
 const signupBtn = document.getElementById("sign-up-button")
 const mainePage = document.querySelector('#main-page')
 const body = document.querySelector("body")
+const generateCompanionBtn = document.querySelector("#generate-companion")
 let locations = "ll"
 let  number = 1
 let users = "lle"
@@ -311,7 +312,9 @@ function createNewUser(e){
     }
 }
 
-
+function generateCompanion(){
+    getCompanions()
+}
 
 
 
@@ -324,9 +327,10 @@ profileForm.addEventListener('submit', handleProfileForm)
 profileContainer.addEventListener('click', handleprofileClick)
 signupForm.addEventListener("submit",createNewUser) 
 signupBtn.addEventListener("click", renderSignUpForm)
+generateCompanionBtn.addEventListener('click', generateCompanion)
 
 
 
-getCompanions()
+
 
 
