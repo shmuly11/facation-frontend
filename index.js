@@ -49,11 +49,12 @@ function renderCompanion(companions){
     // `
     // companionsList.append(li)
     // let timer = setInterval(movement, 500)
-
-    function movement(){
+        // shuffle(companions)
+        list = companions.sort(() => Math.random() - 0.5)
+    function movement(companion){
           
     // for (let i = 0; i < companions.length; i++) {
-        let companion = companions[Math.floor(Math.random() * companions.length)]
+        // let companion = companions[Math.floor(Math.random() * companions.length)]
     companionsList.dataset.id = companion.id
     companionsList.innerHTML = `
     <img src=${companion.image} alt=${companion.name}>
@@ -62,8 +63,9 @@ function renderCompanion(companions){
     //   }
       
     }
-    for (let i = 0; i < companions.length; i++) {
-        setTimeout(movement, 200 * i)
+    for (let i = 0; i < list.length; i++) {
+        // debugger
+        setTimeout(movement, 150 * i, list[i])
       }
     
 }
